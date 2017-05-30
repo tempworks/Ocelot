@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Ocelot.Responses;
 
@@ -70,7 +71,10 @@ namespace Ocelot.DownstreamRouteFinder.UrlMatcher
 
         private bool CharactersDontMatch(char characterOne, char characterTwo)
         {
-            return characterOne != characterTwo;
+            //return characterOne != characterTwo;
+            //Is this the reason for the ReRouteIsCaseSensitive configuration?  Appears to not be used in the project.
+            // if so – add as optional param and get config value from the reroute object up the stack.  Each reroute has a unique config value
+            return !(characterOne.ToString().Equals(characterTwo.ToString(), StringComparison.OrdinalIgnoreCase));
         }
 
         private bool ContinueScanningUrl(int counterForUrl, int urlLength)

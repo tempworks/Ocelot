@@ -3,6 +3,7 @@ namespace Ocelot.Configuration.Builder
     public class ReRouteOptionsBuilder
     {
         private bool _isAuthenticated;
+        private bool _isAddJwtToRequest;
         private bool _isAuthorised;
         private bool _isCached;
         private bool _isQoS;
@@ -17,6 +18,12 @@ namespace Ocelot.Configuration.Builder
         public ReRouteOptionsBuilder WithIsAuthenticated(bool isAuthenticated)
         {
             _isAuthenticated = isAuthenticated;
+            return this;
+        }
+
+        public ReRouteOptionsBuilder WithIsAddJwtToRequest(bool isAddJwtToRequest)
+        {
+            _isAddJwtToRequest = isAddJwtToRequest;
             return this;
         }
 
@@ -40,7 +47,7 @@ namespace Ocelot.Configuration.Builder
 
         public ReRouteOptions Build()
         {
-            return new ReRouteOptions(_isAuthenticated, _isAuthorised, _isCached, _isQoS, _enableRateLimiting);
+            return new ReRouteOptions(_isAuthenticated, _isAddJwtToRequest, _isAuthorised, _isCached, _isQoS, _enableRateLimiting);
         }
     }
 }

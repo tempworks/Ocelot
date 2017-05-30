@@ -12,6 +12,8 @@ namespace Ocelot.Configuration
             string upstreamTemplatePattern, 
             bool isAuthenticated, 
             AuthenticationOptions authenticationOptions, 
+            bool isAddJwtToRequest,
+            JwtOptions jwtOptions,
             List<ClaimToThing> claimsToHeaders, 
             List<ClaimToThing> claimsToClaims, 
             Dictionary<string, string> routeClaimsRequirement, 
@@ -42,6 +44,8 @@ namespace Ocelot.Configuration
             UpstreamTemplatePattern = upstreamTemplatePattern;
             IsAuthenticated = isAuthenticated;
             AuthenticationOptions = authenticationOptions;
+            IsAddJwtToRequest = isAddJwtToRequest;
+            JwtOptions = jwtOptions;
             RouteClaimsRequirement = routeClaimsRequirement;
             IsAuthorised = isAuthorised;
             RequestIdKey = requestIdKey;
@@ -66,8 +70,10 @@ namespace Ocelot.Configuration
         public string UpstreamTemplatePattern { get; private set; }
         public HttpMethod UpstreamHttpMethod { get; private set; }
         public bool IsAuthenticated { get; private set; }
+        public bool IsAddJwtToRequest { get; private set; }
         public bool IsAuthorised { get; private set; }
         public AuthenticationOptions AuthenticationOptions { get; private set; }
+        public JwtOptions JwtOptions { get; private set; }
         public List<ClaimToThing> ClaimsToQueries { get; private set; }
         public List<ClaimToThing> ClaimsToHeaders { get; private set; }
         public List<ClaimToThing> ClaimsToClaims { get; private set; }

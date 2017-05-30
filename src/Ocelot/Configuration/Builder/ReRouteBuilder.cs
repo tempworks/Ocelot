@@ -7,12 +7,14 @@ namespace Ocelot.Configuration.Builder
     public class ReRouteBuilder
     {
         private AuthenticationOptions _authenticationOptions;
+        private JwtOptions _jwtOptions;
         private string _loadBalancerKey;
         private string _downstreamPathTemplate;
         private string _upstreamTemplate;
         private string _upstreamTemplatePattern;
         private string _upstreamHttpMethod;
         private bool _isAuthenticated;
+        private bool _isAddJwtToRequest;
         private List<ClaimToThing> _configHeaderExtractorProperties;
         private List<ClaimToThing> _claimToClaims;
         private Dictionary<string, string> _routeClaimRequirement;
@@ -74,6 +76,12 @@ namespace Ocelot.Configuration.Builder
         public ReRouteBuilder WithIsAuthenticated(bool input)
         {
             _isAuthenticated = input;
+            return this;
+        }
+
+        public ReRouteBuilder WithIsAddJwtToRequest(bool input)
+        {
+            _isAddJwtToRequest = input;
             return this;
         }
 
@@ -162,6 +170,12 @@ namespace Ocelot.Configuration.Builder
             return this;
         }
 
+        public ReRouteBuilder WithJwtOptions(JwtOptions jwtOptions)
+        {
+            _jwtOptions = jwtOptions;
+            return this;
+        }
+
         public ReRouteBuilder WithEnableRateLimiting(bool input)
         {
             _enableRateLimiting = input;
@@ -184,6 +198,8 @@ namespace Ocelot.Configuration.Builder
                 _upstreamTemplatePattern, 
                 _isAuthenticated, 
                 _authenticationOptions,
+                _isAddJwtToRequest,
+                _jwtOptions,
                 _configHeaderExtractorProperties, 
                 _claimToClaims, 
                 _routeClaimRequirement, 

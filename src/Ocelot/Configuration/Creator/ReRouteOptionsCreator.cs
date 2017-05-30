@@ -8,6 +8,7 @@ namespace Ocelot.Configuration.Creator
         public ReRouteOptions Create(FileReRoute fileReRoute)
         {
             var isAuthenticated = IsAuthenticated(fileReRoute);
+            var isAddJwtToRequest = IsAddJwtToRequest(fileReRoute);
             var isAuthorised = IsAuthorised(fileReRoute);
             var isCached = IsCached(fileReRoute);
             var isQos = IsQoS(fileReRoute);
@@ -15,6 +16,7 @@ namespace Ocelot.Configuration.Creator
 
             var options = new ReRouteOptionsBuilder()
                 .WithIsAuthenticated(isAuthenticated)
+                .WithIsAddJwtToRequest(isAddJwtToRequest)
                 .WithIsAuthorised(isAuthorised)
                 .WithIsCached(isCached)
                 .WithIsQos(isQos)
@@ -37,6 +39,11 @@ namespace Ocelot.Configuration.Creator
         private bool IsAuthenticated(FileReRoute fileReRoute)
         {
             return !string.IsNullOrEmpty(fileReRoute.AuthenticationOptions?.Provider);
+        }
+
+        private bool IsAddJwtToRequest(FileReRoute fileReRoute)
+        {
+            return !string.IsNullOrEmpty(fileReRoute.JwtOptions?.Provider);
         }
 
         private bool IsAuthorised(FileReRoute fileReRoute)

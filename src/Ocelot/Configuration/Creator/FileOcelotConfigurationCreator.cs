@@ -30,6 +30,7 @@ namespace Ocelot.Configuration.Creator
         private readonly IQosProviderHouse _qosProviderHouse;
         private readonly IClaimsToThingCreator _claimsToThingCreator;
         private readonly IAuthenticationOptionsCreator _authOptionsCreator;
+        private readonly IJwtOptionsCreator _jwtOptionsCreator;
         private IUpstreamTemplatePatternCreator _upstreamTemplatePatternCreator;
         private IRequestIdKeyCreator _requestIdKeyCreator;
         private IServiceProviderConfigurationCreator _serviceProviderConfigCreator;
@@ -47,6 +48,7 @@ namespace Ocelot.Configuration.Creator
             IQosProviderHouse qosProviderHouse,
             IClaimsToThingCreator claimsToThingCreator,
             IAuthenticationOptionsCreator authOptionsCreator,
+            IJwtOptionsCreator jwtOptionsCreator,
             IUpstreamTemplatePatternCreator upstreamTemplatePatternCreator,
             IRequestIdKeyCreator requestIdKeyCreator,
             IServiceProviderConfigurationCreator serviceProviderConfigCreator,
@@ -59,6 +61,7 @@ namespace Ocelot.Configuration.Creator
             _requestIdKeyCreator = requestIdKeyCreator;
             _upstreamTemplatePatternCreator = upstreamTemplatePatternCreator;
             _authOptionsCreator = authOptionsCreator;
+            _jwtOptionsCreator = jwtOptionsCreator;
             _loadBalanceFactory = loadBalancerFactory;
             _loadBalancerHouse = loadBalancerHouse;
             _qoSProviderFactory = qoSProviderFactory;
@@ -94,7 +97,7 @@ namespace Ocelot.Configuration.Creator
             {
                 var errorBuilder = new StringBuilder();
 
-                foreach (var error in response.Errors)
+                foreach (var error in response.Data.Errors)
                 {
                     errorBuilder.AppendLine(error.Message);
                 }
@@ -127,6 +130,8 @@ namespace Ocelot.Configuration.Creator
 
             var authOptionsForRoute = _authOptionsCreator.Create(fileReRoute);
 
+            var jwtOptionsForRoute = _jwtOptionsCreator.Create(fileReRoute);
+
             var claimsToHeaders = _claimsToThingCreator.Create(fileReRoute.AddHeadersToRequest);
 
             var claimsToClaims = _claimsToThingCreator.Create(fileReRoute.AddClaimsToRequest);
@@ -144,6 +149,8 @@ namespace Ocelot.Configuration.Creator
                 .WithUpstreamTemplatePattern(upstreamTemplatePattern)
                 .WithIsAuthenticated(fileReRouteOptions.IsAuthenticated)
                 .WithAuthenticationOptions(authOptionsForRoute)
+                .WithIsAddJwtToRequest(fileReRouteOptions.IsAddJwtToRequest)
+                .WithJwtOptions(jwtOptionsForRoute)
                 .WithClaimsToHeaders(claimsToHeaders)
                 .WithClaimsToClaims(claimsToClaims)
                 .WithRouteClaimsRequirement(fileReRoute.RouteClaimsRequirement)

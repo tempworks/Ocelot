@@ -11,6 +11,7 @@ namespace Ocelot.Configuration.File
             RouteClaimsRequirement = new Dictionary<string, string>();
             AddQueriesToRequest = new Dictionary<string, string>();
             AuthenticationOptions = new FileAuthenticationOptions();
+            JwtOptions = new FileJwtOptions();
             FileCacheOptions = new FileCacheOptions();
             QoSOptions = new FileQoSOptions();
             RateLimitOptions = new FileRateLimitRule();
@@ -20,6 +21,7 @@ namespace Ocelot.Configuration.File
         public string UpstreamPathTemplate { get; set; }
         public string UpstreamHttpMethod { get; set; }
         public FileAuthenticationOptions AuthenticationOptions { get; set; }
+        public FileJwtOptions JwtOptions { get; set; }
         public Dictionary<string, string> AddHeadersToRequest { get; set; }
         public Dictionary<string, string> AddClaimsToRequest { get; set; }
         public Dictionary<string, string> RouteClaimsRequirement { get; set; }

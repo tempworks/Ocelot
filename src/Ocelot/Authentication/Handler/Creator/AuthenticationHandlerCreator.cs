@@ -1,3 +1,4 @@
+using System;
 using IdentityServer4.AccessTokenValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -16,15 +17,27 @@ namespace Ocelot.Authentication.Handler.Creator
         {
             var builder = app.New();
 
-            builder.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+            switch (authOptions.Provider)
             {
-                Authority = authOptions.ProviderRootUrl,
-                ApiName = authOptions.ApiName,
-                RequireHttpsMetadata = authOptions.RequireHttps,
-                AllowedScopes = authOptions.AllowedScopes,
-                SupportedTokens = SupportedTokens.Both,
-                ApiSecret = authOptions.ApiSecret
-            });
+                case "IdentityServer":
+                    builder.UseIdentityServerAuthentication(new IdentityServerAuthenticationOptions
+                    {
+                        Authority = authOptions.ProviderRootUrl,
+                        ApiName = authOptions.ApiName,
+                        RequireHttpsMetadata = authOptions.RequireHttps,
+                        AllowedScopes = authOptions.AllowedScopes,
+                        SupportedTokens = SupportedTokens.Both,
+                        ApiSecret = authOptions.ApiSecret
+                    });
+                    break;
+
+                case "IdSvrTokenExchange":
+                    break;
+
+                default:
+                    throw new NotSupportedException($"Authentication provider {authOptions.Provider} is not supported");
+            }
+
 
             var authenticationNext = builder.Build();
 
